@@ -15,6 +15,15 @@ No account, no server, no build step.</p>
 <img src="docs/en-notes-dark.png" width="23%" alt="Notes list, English dark theme">
 </p>
 
+## Screenshots
+
+Captured from the live site (https://yousefkhames.github.io/sawt/).
+
+<p>
+  <img src="docs/screenshots/live-desktop.png" alt="sawt desktop view" width="640">
+  <img src="docs/screenshots/live-mobile.png" alt="sawt mobile view" width="200">
+</p>
+
 ## What it does
 
 - **Live transcription** while you speak, with grey interim text that turns solid as each phrase is confirmed.
