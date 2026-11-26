@@ -26,6 +26,7 @@ No account, no server, no build step.</p>
 - **Export** one note as `.txt`, `.md`, `.srt` subtitles (using the recorded timing) or JSON. Back up and restore everything as one JSON file.
 - **Search** across titles and text with highlighting.
 - **Arabic and English interface** with full RTL layout, light, dark and auto themes, mobile-first, keyboard and screen reader friendly.
+- **Installable and works offline for notes**: add it to the home screen. Editing, search and export work without a connection; speech recognition itself still needs one in Chrome.
 - **Type-only fallback**: in a browser without speech recognition you still get notes, editing and export.
 
 ## Tech
@@ -64,7 +65,7 @@ The click-through drives real Chrome over the DevTools protocol: recording, edit
 ## Honest limits
 
 - **Browser support.** Works in Chrome, Edge and Safari (Safari with limits). Firefox has no `SpeechRecognition`; Sawt shows a notice and falls back to typing.
-- **Not offline, not private by itself.** In Chrome, the browser sends your audio to Google's speech service. Sawt itself sends nothing anywhere, but the browser does. Do not use it for secrets.
+- **Recording is not offline, and not private by itself.** In Chrome, the browser sends your audio to Google's speech service. Sawt itself sends nothing anywhere, but the browser does. Do not use it for secrets.
 - **Accuracy is the browser's.** Egyptian Arabic dialect, names and mixed Arabic-English speech can come out wrong. That is why every note is editable.
 - **Spoken punctuation is rule-based.** The word "comma" always becomes a comma while the option is on.
 - **SRT timing.** Exact for recorded segments. After you edit the text, timing is estimated from sentence length.
