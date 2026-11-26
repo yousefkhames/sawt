@@ -1,0 +1,2 @@
+{ "name": "sawt", "version": "1.0.0", "private": true, "license": "MIT",
+  "scripts": { "test": "node --test tests/unit.test.js", "e2e": "node tests/e2e.js" } }

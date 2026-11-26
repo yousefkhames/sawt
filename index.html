@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>صوت · Sawt</title>
+<meta name="description" content="Sawt turns voice notes into editable text in Arabic and English, right in your browser. صوت يحوّل ملاحظاتك الصوتية إلى نص.">
+<meta name="theme-color" content="#f3ede1">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main" data-i="skip"></a>
+<header class="top">
+  <div class="brand"><img src="assets/logo.svg" alt="" width="34" height="34"><div><b data-i="app">صوت</b><small data-i="tagline"></small></div></div>
+  <div class="top-actions">
+    <button class="chip" id="btnUiLang" aria-label="Language" type="button">EN</button>
+    <button class="icon-btn" id="btnSettings" type="button" aria-label="Settings"><svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm8-3.5-.1-1.2 1.8-1.4-1.8-3.1-2.1.8a7 7 0 0 0-2-1.2L15.4 4h-3.6l-.4 1.9a7 7 0 0 0-2 1.2l-2.1-.8-1.8 3.1 1.8 1.4L7 12l.1 1.2-1.8 1.4 1.8 3.1 2.1-.8c.6.5 1.3.9 2 1.2l.4 1.9h3.6l.4-1.9c.7-.3 1.4-.7 2-1.2l2.1.8 1.8-3.1-1.8-1.4Z"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+  <section id="viewRecord" class="view" aria-labelledby="hRec">
+    <div class="banner" id="banner" hidden role="alert"><b id="bannerTitle"></b><p id="bannerBody"></p></div>
+    <div class="recorder card">
+      <h1 id="hRec" class="sr-only" data-i="tabRecord"></h1>
+      <div class="row">
+        <label for="selLang" data-i="speakLang"></label>
+        <select id="selLang">
+          <option value="ar-EG" data-i="langArEG"></option>
+          <option value="ar-SA" data-i="langArSA"></option>
+          <option value="en-US" data-i="langEnUS"></option>
+          <option value="en-GB" data-i="langEnGB"></option>
+        </select>
+      </div>
+      <div class="stage">
+        <canvas id="wave" width="640" height="120" aria-hidden="true"></canvas>
+        <div class="timer" id="timer" aria-live="off">0:00</div>
+      </div>
+      <button id="btnRec" class="rec" type="button" aria-pressed="false"><span class="rec-dot"></span><span id="recLabel" data-i="start"></span></button>
+      <p class="status" id="status" role="status" aria-live="polite" data-i="tapToStart"></p>
+      <div class="live" id="live" dir="auto"><span id="liveFinal"></span><span id="liveInterim" class="interim"></span><span id="livePh" class="ph" data-i="livePlaceholder"></span></div>
+      <label class="switch"><input type="checkbox" id="chkCmds" checked><span class="knob"></span><span><b data-i="voiceCmds"></b><small data-i="voiceCmdsHint"></small></span></label>
+      <button id="btnManual" class="link" type="button" data-i="newManual"></button>
+      <p class="fine" data-i="privacy"></p>
+    </div>
+  </section>
+
+  <section id="viewNotes" class="view" hidden aria-labelledby="hNotes">
+    <div class="notes-head">
+      <h1 id="hNotes" data-i="notes"></h1>
+      <span class="stats" id="stats"></span>
+    </div>
+    <input id="search" type="search" class="search" data-ip="search" autocomplete="off">
+    <ul id="list" class="list"></ul>
+    <div class="empty" id="empty" hidden><img src="assets/empty.svg" alt="" width="120" height="90"><b data-i="empty"></b><p data-i="emptyHint"></p></div>
+  </section>
+
+  <section id="viewEdit" class="view" hidden aria-labelledby="hEdit">
+    <div class="edit-bar">
+      <button class="chip" id="btnBack" type="button"><span class="arrow" aria-hidden="true">←</span> <span data-i="back"></span></button>
+      <div class="edit-actions">
+        <button class="icon-btn" id="btnPin" type="button" aria-pressed="false" aria-label="Pin"><svg viewBox="0 0 24 24"><path d="m14 3 7 7-2 1-3-1-3.6 3.6.6 4.4-1.4 1.4-3.5-3.5L4 20l-.9-.9 3.9-3.6-3.5-3.5L5 10.6l4.4.6L13 7.6l-1-3Z"/></svg></button>
+        <button class="icon-btn danger" id="btnDelete" type="button" aria-label="Delete"><svg viewBox="0 0 24 24"><path d="M9 3h6l1 2h4v2H4V5h4Zm-3 6h12l-1 12H7Z"/></svg></button>
+      </div>
+    </div>
+    <h1 id="hEdit" class="sr-only" data-i="text"></h1>
+    <input id="noteTitle" class="title-in" type="text" dir="auto" data-ip="titlePh" maxlength="120">
+    <div class="meta" id="noteMeta"></div>
+    <div class="paper"><textarea id="noteText" dir="auto" spellcheck="true" aria-label="Text"></textarea>
+      <div class="live live-in" id="editLive" dir="auto" hidden><span id="editFinal"></span><span id="editInterim" class="interim"></span></div>
+    </div>
+    <div class="tools">
+      <button class="btn" id="btnAppend" type="button"><span class="rec-dot sm"></span><span data-i="append"></span></button>
+      <button class="btn ghost" id="btnCopy" type="button" data-i="copy"></button>
+      <button class="btn ghost" id="btnShare" type="button" data-i="share" hidden></button>
+    </div>
+    <details class="fr"><summary data-i="findReplace"></summary>
+      <div class="fr-body"><input id="frFind" type="text" dir="auto" data-ip="find"><input id="frRepl" type="text" dir="auto" data-ip="replaceWith"><button class="btn ghost" id="frGo" type="button" data-i="replaceBtn"></button></div>
+    </details>
+    <div class="export card">
+      <h2 data-i="export"></h2>
+      <div class="exp-grid">
+        <button class="btn ghost" data-exp="txt" type="button" data-i="expTxt"></button>
+        <button class="btn ghost" data-exp="md" type="button" data-i="expMd"></button>
+        <button class="btn ghost" data-exp="srt" type="button" data-i="expSrt"></button>
+        <button class="btn ghost" data-exp="json" type="button" data-i="expJson"></button>
+      </div>
+      <p class="fine" data-i="srtNote"></p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs" id="tabs" aria-label="Main">
+  <button type="button" data-tab="record" class="on"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1A7 7 0 0 0 19 12Z"/></svg><span data-i="tabRecord"></span></button>
+  <button type="button" data-tab="notes"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5Zm3 5v2h8V8Zm0 4v2h8v-2Zm0 4v2h5v-2Z"/></svg><span data-i="tabNotes"></span><em id="tabCount" hidden>0</em></button>
+</nav>
+
+<dialog id="dlgSettings" aria-labelledby="hSet">
+  <form method="dialog" class="dlg">
+    <h2 id="hSet" data-i="settings"></h2>
+    <div class="set"><b data-i="theme"></b>
+      <div class="seg" id="segTheme" role="group"><button type="button" data-theme="auto" data-i="auto"></button><button type="button" data-theme="light" data-i="light"></button><button type="button" data-theme="dark" data-i="dark"></button></div></div>
+    <div class="set"><b data-i="backup"></b>
+      <button class="btn ghost" id="btnExportAll" type="button" data-i="exportAll"></button>
+      <button class="btn ghost" id="btnImport" type="button" data-i="importFile"></button>
+      <input type="file" id="fileImport" accept="application/json,.json" hidden>
+    </div>
+    <p class="fine" data-i="aboutDemo"></p>
+    <div class="set"><button class="btn danger" id="btnWipe" type="button" data-i="wipe"></button></div>
+    <button class="btn" value="close" data-i="close"></button>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toastMsg"></span><button id="toastAct" type="button" hidden></button></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/lib.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
